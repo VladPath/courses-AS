@@ -1,0 +1,16 @@
+import asyncio
+
+from sqlalchemy import text
+from src.config import settings
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
+
+engine = create_async_engine(settings.DB_URL)
+
+
+async def func():
+    async with engine.begin() as conn:
+        res = await conn.execute(text("SELECT version()"))
+        print(res.fetchone())
+
+asyncio.run(func())
+
